@@ -7,7 +7,7 @@ async function createCity(req, res){
     
     try {
         const city = await CityService.createCity({
-            name : req.body.city
+            name : req.body.name
         })
         SuccessResponse.message = 'successfully added the city';
         SuccessResponse.data = city ;
