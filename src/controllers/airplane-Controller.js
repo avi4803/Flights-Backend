@@ -3,6 +3,7 @@ const {AirPlaneService} = require('../services');
 const { SuccessResponse, ErrorResponse } = require('../utils/common');
 
 
+
 // POST : /airplanes
 // req body {model-number: 'smthg' , capacity:200}
 
@@ -35,6 +36,7 @@ async function getAirplanes(req, res){
   try {
     const airplanes = await AirPlaneService.getAirplanes();
     SuccessResponse.data = airplanes ;
+    SuccessResponse.message = 'List of found planes'
     return res
               .status(StatusCodes.OK)
               .json(SuccessResponse)
@@ -64,8 +66,51 @@ async function getAirplane(req, res){
   }
 }
 
+async function destroyAirplane(req, res){
+  try {
+    const airplane = await AirPlaneService.destroyAirplane(req.params.id);
+    SuccessResponse.message = 'Successfully deleted the airplane';
+    return res
+              .status(StatusCodes.OK)
+              .json(SuccessResponse)
+    
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res 
+              .status(StatusCodes.INTERNAL_SERVER_ERROR)
+              .json(ErrorResponse);
+  }
+}
+
+async function updateAirplane(req, res){
+  
+  try {
+    const updatedAirplane = await AirPlaneService.updateAirplane(req.params.id , {
+      modelNumber: req.body.modelNumber ,
+      capacity: req.body.capacity,
+    
+      
+    })
+    SuccessResponse.message = 'Successfully updated the Plane' 
+    SuccessResponse.data = updatedAirplane ;
+    return res
+             .status(StatusCodes.OK)
+             .json(SuccessResponse)
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res
+             .status(StatusCodes.NOT_FOUND)
+             .json(ErrorResponse)
+
+    
+  }
+
+}
+
 module.exports ={
  createAeroplane,
  getAirplanes,
- getAirplane
+ getAirplane,
+ destroyAirplane,
+ updateAirplane
 };

@@ -2,6 +2,7 @@
 const { StatusCodes } = require('http-status-codes');
 const models = require('../models');
 const AppError = require('../utils/errors/App-Error');
+const { ErrorResponse } = require('../utils/common');
 
 class CrudRepository {
     constructor(model){
@@ -19,6 +20,9 @@ class CrudRepository {
                     id: data 
                 }
             });
+        if(!response){
+            throw new AppError("No Results with requested id", StatusCodes.NOT_FOUND);
+        }
         return response ;    
     }
 
@@ -42,6 +46,10 @@ class CrudRepository {
                 id:id
             }
         });
+        if(!response){
+            throw new AppError('Not found anything with given id', StatusCodes.NOT_FOUND);
+            
+        }
         return response ;
     }
 }
