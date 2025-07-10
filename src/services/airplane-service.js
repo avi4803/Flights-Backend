@@ -34,13 +34,26 @@ async function getAirplane(data){
 }
 
 
-async function getAirplanes(data){
+async function getAirplanes(){
     try {
-        const airplanes = await airplaneRepository.getAll(data);
+        const airplanes = await airplaneRepository.getAll();
         return airplanes;
         
     } catch (error) {
         throw new AppError('Cannot create new Airplane Object', StatusCodes.INTERNAL_SERVER_ERROR); 
+        
+    }
+}
+
+async function getAirplane(data){
+    try {
+        const airplane = await airplaneRepository.get(data);
+        return airplane;
+        
+    } catch (error) {
+        if(error.statusCode == StatusCodes.NOT_FOUND){
+            throw new AppError('Airplane with requested id is not present', error.statusCode)
+        }
         
     }
 }

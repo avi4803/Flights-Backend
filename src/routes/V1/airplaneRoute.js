@@ -13,5 +13,12 @@ router.get('/',
     airplaneController.getAirplanes
 );
 
+// api/v1/airplane/:id  --GET
+router.get('/:id',
+    airplaneController.getAirplane
+);
+
+
+
 module.exports = router ;
 
