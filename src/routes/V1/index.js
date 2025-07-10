@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {infoControllers} = require('../../controllers');
 const airplaneRoute = require('./airplaneRoute');
+const cityRoute = require('./cityRoute')
 
 
 router.use((req , res , next) =>{
@@ -12,7 +13,13 @@ router.use((req , res , next) =>{
 
 
 router.get('/' , infoControllers.info);
+
+//routes for airplanes CRUD api
 router.use('/airplanes' , airplaneRoute )
+
+//routes for city CRUD api
+router.use('/cities' , cityRoute)
+
 
 
 
