@@ -12,7 +12,7 @@ router.use((req , res , next) =>{
 
 
 router.get('/' , infoControllers.info);
-router.use('/airplane' , airplaneRoute )
+router.use('/airplanes' , airplaneRoute )
 
 
 
