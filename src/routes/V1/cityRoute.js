@@ -9,22 +9,23 @@ router.post('/' ,
     cityController.createCity);
 
 // api/v1/airplane/  --GET
-// router.get('/',
-//     airplaneController.getAirplanes
-// );
+router.get('/',
+    CityMiddlewares.validateCreateRequest,
+    cityController.getCities
+);
 
-// // api/v1/airplane/:id  --GET
-// router.get('/:id',
-//     airplaneController.getAirplane
-// );
+// api/v1/airplane/:id  --GET
+router.get('/:id',
+    cityController.getCity
+);
 
-// router.delete('/:id',
-//     airplaneController.destroyAirplane
-// );
+router.delete('/:id',
+    cityController.destroyCity
+);
 
-// router.patch('/:id',
-//     airplaneController.updateAirplane
-// );
+router.patch('/:id',
+    cityController.updateCity
+);
 
 
 
