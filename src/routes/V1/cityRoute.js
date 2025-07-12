@@ -10,7 +10,6 @@ router.post('/' ,
 
 // api/v1/airplane/  --GET
 router.get('/',
-    CityMiddlewares.validateCreateRequest,
     cityController.getCities
 );
 

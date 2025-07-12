@@ -2,6 +2,7 @@ const { StatusCodes } = require('http-status-codes');
 const FlightRepository = require('../repositories/flight-repository');
 const AppError = require('../utils/errors/App-Error')
 const flightRepository = new FlightRepository();
+const {Op} = require('sequelize')
 
 
 async function createFlight(data){
@@ -10,8 +11,17 @@ async function createFlight(data){
         const flight = await flightRepository.create(data);
         return flight;
     } catch(error){
+        // console.log("here is the error" ,error.name)
         
         if (error.name == "SequelizeValidationError"){
+            let explanation = [];
+            error.errors.forEach(err => {
+                explanation.push(err.message);  
+            });
+            throw new AppError(explanation , StatusCodes.BAD_REQUEST);
+        }
+
+        if (error.name == "SequelizeUniqueConstraintError"){
             let explanation = [];
             error.errors.forEach(err => {
                 explanation.push(err.message);  
@@ -39,6 +49,27 @@ async function getAllFlights(query){
         customFilter.arrivalAirportId = arrivalAirportId ;
 
         //both should not be same
+    }
+
+    if(query.price){
+        [minPrice , maxPrice] = query.price.split('-'); 
+        customFilter.price = {
+            [Op.between]: [minPrice , (maxPrice == undefined ? 20000: maxPrice)] //custom upper limit if not provided by frontend
+        }
+
+       
+    }
+
+    if(query.travellers){
+        customFilter.totalSeats = {
+            [Op.gte] : query.travellers
+        } 
+    }
+
+    if(query.tripDate){
+        customFilter.departureTime = {
+            [Op.gte] : query.tripDate
+        } 
     }
     
     try {
