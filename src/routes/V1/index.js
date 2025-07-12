@@ -3,7 +3,8 @@ const router = express.Router();
 const {infoControllers} = require('../../controllers');
 const airplaneRoute = require('./airplaneRoute');
 const cityRoute = require('./cityRoute')
-const airportRoute = require('./airportRoute')
+const airportRoute = require('./airportRoute');
+const flightRoute = require('./flightRoute')
 
 
 router.use((req , res , next) =>{
@@ -22,6 +23,9 @@ router.use('/cities' , cityRoute)
 
 //routes for airport CRUD api
 router.use('/airports' , airportRoute )
+
+//routes for flight CRUD api
+router.use('/flights' , flightRoute )
 
 
 
