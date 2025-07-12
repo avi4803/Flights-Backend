@@ -8,6 +8,12 @@ router.post('/' ,
     FlightMiddlewares.validateCreateRequest,
     flightController.createFlight);
 
+
+// api/v1/flight?trips=MUM-DEL  --GET
+router.get('/',
+    flightController.getAllFlights
+)
+
 // // api/v1/flight/  --GET
 // router.get('/',
 //     flightController.getFlights

@@ -5,6 +5,13 @@ class FlightRepository extends crudRepository{
     constructor(){
         super(Flight);
     }
+
+    async getAllFlights(filter){
+        const flight = await Flight.findAll({
+            where: filter,
+        });
+        return flight;
+    }
 }
 
 
