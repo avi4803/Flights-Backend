@@ -15,10 +15,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'airplaneId' // This tells Sequelize which column links to Aeroplane
       });
       this.belongsTo(models.Airport , {
-        foreignKey: 'departureAirportId'
+        foreignKey: 'departureAirportId',
+        targetKey: 'code',              // Match with Airport.code instead of Airport.id
+        as: 'departureAirport'          // Add alias to distinguish
       });
       this.belongsTo(models.Airport , {
-        foreignKey: 'arrivalAirportId'
+        foreignKey: 'arrivalAirportId',
+        targetKey: 'code',              // Match with Airport.code instead of Airport.id
+        as: 'arrivalAirport'            // Add alias to distinguish
       });
     }
   }
