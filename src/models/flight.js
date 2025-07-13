@@ -12,7 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.Aeroplane, {
-        foreignKey: 'airplaneId' // This tells Sequelize which column links to Aeroplane
+        foreignKey: 'airplaneId' ,// This tells Sequelize which column links to Aeroplane
+        targetKey: 'id',
+        as:'Airplane'
       });
       this.belongsTo(models.Airport , {
         foreignKey: 'departureAirportId',

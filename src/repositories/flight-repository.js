@@ -1,5 +1,5 @@
 const crudRepository = require('./crud-repository');
-const {Flight , Airport, sequelize} = require('../models/');
+const {Flight , Airport, sequelize,Aeroplane ,City} = require('../models/');
 const {Sequelize} = require('sequelize')
 
 class FlightRepository extends crudRepository{
@@ -15,15 +15,26 @@ class FlightRepository extends crudRepository{
             {
                 model: Airport,
                 as: 'departureAirport',     // Use the alias from association
-                attributes: ['code', 'name', 'address', 'cityId']  // Select specific fields
+                attributes: ['code', 'name', 'address', 'cityId'],  // Select specific fields
+                include:[{
+                    model: City ,
+                    as: City,
+                    attributes:  ['name']
+                }]
             },
             {
                 model: Airport,
                 as: 'arrivalAirport',       // Use the alias from association  
-                attributes: ['code', 'name', 'address', 'cityId']  // Select specific fields
-            }
-        ]
-        });
+                attributes: ['code', 'name', 'address', 'cityId']  // Select specific fiel //on: {
+                //   col1: Sequelize.where(Sequelize.col("Flight.arrivalAirportId"), '=' , Sequelize.col("Airport.code"))
+                //}      
+            },
+            {
+                model: Aeroplane,      //do based on association only
+                as: 'Airplane',       // Use the alias from association
+            },
+
+        ]});
         return flight;
     }
 }
