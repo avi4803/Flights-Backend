@@ -97,23 +97,25 @@ async function getAllFlights(query){
 
 
 
-// async function getAirplane(data){
-//     try {
-//         const airplane = await airplaneRepository.get(data);
-//         return airplane;
+async function getFlight(data){
+    try {
+        const flight = await flightRepository.get(data);
+        return flight;
         
-//     } catch (error) {
-//         if (error.name == "SequelizeValidationError"){
-//             let explanation = [];
-//             error.errors.forEach(err => {
-//                 explanation.push(err.message);  
-//             });
-//             throw new AppError(explanation , StatusCodes.BAD_REQUEST);
-//         }
-//         throw new AppError('Cannot create new Airplane Object', StatusCodes.INTERNAL_SERVER_ERROR);
+    } catch (error) {
+        if (error.name == "SequelizeValidationError"){
+            let explanation = [];
+            error.errors.forEach(err => {
+                explanation.push(err.message);  
+            });
+            throw new AppError(explanation , StatusCodes.BAD_REQUEST);
+        }
+        if(error.statusCode == StatusCodes.NOT_FOUND){
+            throw new AppError('Airplane with requested id is not present', error.statusCode)
+        }
         
-//     }
-// }
+    }
+}
 
 
 // async function getAirplanes(){
@@ -172,7 +174,8 @@ async function getAllFlights(query){
 
 module.exports = {
     createFlight,
-    getAllFlights
+    getAllFlights,
+    getFlight
 //     getAirplanes,
 //     getAirplane,
 //     destroyAirplane,

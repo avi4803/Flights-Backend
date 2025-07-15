@@ -2,6 +2,7 @@ const { StatusCodes } = require('http-status-codes');
 const {FlightService, AirPlaneService} = require('../services');
 const { SuccessResponse, ErrorResponse } = require('../utils/common');
 const { query } = require('winston');
+const AppError = require('../utils/errors/App-Error');
 
 
 
@@ -83,21 +84,22 @@ async function getAllFlights(req ,res){
 // }
 
 
-// async function getAirplane(req, res){
-//   try {
-//     const airplane = await AirPlaneService.getAirplane(req.params.id);
-//     SuccessResponse.data = airplane ;
-//     return res
-//               .status(StatusCodes.OK)
-//               .json(SuccessResponse)
-//   } catch (error) {
-//     ErrorResponse.error = error;
-//     return res
-//               .status(error.statusCode)
-//               .json(ErrorResponse)
+async function getFlight(req, res){
+  try {
+    const flight = await FlightService.getFlight(req.params.id);
+    SuccessResponse.data = flight ;
+    return res
+              .status(StatusCodes.OK)
+              .json(SuccessResponse)
+  } catch (error) {
     
-//   }
-// }
+    ErrorResponse.error = error;
+    return res
+              .status(error.statusCode)
+              .json(ErrorResponse)
+    
+  }
+}
 
 // async function destroyAirplane(req, res){
 //   try {
@@ -142,7 +144,8 @@ async function getAllFlights(req ,res){
 
 module.exports ={
  createFlight,
- getAllFlights
+ getAllFlights,
+ getFlight
 //  getAirplanes,
 //  getAirplane,
 //  destroyAirplane,
