@@ -101,6 +101,29 @@ async function getFlight(req, res){
   }
 }
 
+
+async function updateSeats(req , res){
+  try {
+    const response = await FlightService.updateSeats({
+      flightId : req.body.flightId,
+      seats : req.body.seats,
+      dec: req.body.dec,
+    });
+    SuccessResponse.data = response;
+    return res
+              .status(StatusCodes.OK)
+              .json(SuccessResponse)
+    
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res
+              .status(error.statusCode)
+              .json(ErrorResponse )
+    
+  }
+
+}
+
 // async function destroyAirplane(req, res){
 //   try {
 //     const airplane = await AirPlaneService.destroyAirplane(req.params.id);
@@ -145,7 +168,8 @@ async function getFlight(req, res){
 module.exports ={
  createFlight,
  getAllFlights,
- getFlight
+ getFlight,
+ updateSeats,
 //  getAirplanes,
 //  getAirplane,
 //  destroyAirplane,

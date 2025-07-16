@@ -24,6 +24,12 @@ router.get('/:id',
     flightController.getFlight
 );
 
+// api/v1/flights/seats  --PATCH
+router.patch('/seats',
+    FlightMiddlewares.validateUpdateSeatsRequest,
+    flightController.updateSeats,
+);
+
 // router.delete('/:id',
 //     flightController.destroyFlight
 // );

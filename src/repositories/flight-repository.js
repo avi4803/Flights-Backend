@@ -1,6 +1,8 @@
 const crudRepository = require('./crud-repository');
 const {Flight , Airport, sequelize,Aeroplane ,City} = require('../models/');
-const {Sequelize} = require('sequelize')
+const {Sequelize} = require('sequelize');
+const { StatusCodes } = require('http-status-codes');
+const db = require('../models');
 
 class FlightRepository extends crudRepository{
     constructor(){
@@ -37,6 +39,42 @@ class FlightRepository extends crudRepository{
         ]});
         return flight;
     }
+
+
+
+
+    async updateRemainingSeats(flightId, seats, dec = true) {
+    try {
+
+        await db.sequelize.query(`select * from flights where flights.id = ${flightId} for update`) ;           //using row lock for consistent data
+        const flight = await Flight.findByPk(flightId);
+        if (!flight) {
+            throw new AppError('Flight not found', StatusCodes.BAD_REQUEST);
+        }
+        let response;
+        console.log('here is the dec value', dec)
+        if (parseInt(dec)) {
+            // Check if we have enough seats to decrement
+            if (flight.totalSeats < seats) {
+                throw new Error(`Not enough seats available. Current: ${flight.totalSeats}, Requested: ${seats}`);
+            }
+            response = await flight.decrement('totalSeats', { by: seats });
+            
+        }
+        else {
+            response = await flight.increment('totalSeats', { by: seats });
+           
+        }
+        
+        // Reload the flight to get updated values
+        await flight.reload();
+        return flight;
+        
+    } catch (error) {
+        console.error('Error in updateRemainingSeats:', error);
+        throw error;
+    }
+}
 }
 
 
