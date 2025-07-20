@@ -80,7 +80,7 @@ function validateCreateRequest(req, res, next) {
 }
 
 function validateUpdateSeatsRequest(req, res, next){
-    if(!req.body.flightId) {
+    if(!req.params.id) {
         ErrorResponse.message = 'Something went wrong while updating Seats';
         ErrorResponse.error = new AppError(['flightId not found in the oncoming request in the correct form'], StatusCodes.BAD_REQUEST);
         return res

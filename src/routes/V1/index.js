@@ -30,7 +30,7 @@ router.use('/flights' , flightRoute )
 
 
 
-router.get('/api' , (req , res) =>{
+router.get('/info' , (req , res) =>{
     const data = {
         success: true ,
         message: "This data is provided by v1 api" ,

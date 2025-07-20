@@ -10,7 +10,7 @@ router.post('/' , (req , res) => {
     })
 })
 
-router.post('/api' , (req , res) => {
+router.post('/info' , (req , res) => {
     res.json({
         success : true ,
         data: "This data is provided by V2 api" ,

@@ -13,8 +13,8 @@ const apiRoutesV2 = require('./routes/V2/index')
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use('/home/v1' , apiRoutesV1)
-app.use('/home/v2' , apiRoutesV2)
+app.use('/api/v1' , apiRoutesV1)
+app.use('/api/v2' , apiRoutesV2)
 
 app.listen(PORT , () => {
     console.log("Server started and running on Port:", PORT);
